@@ -1,10 +1,10 @@
 ########## How To Use Docker Image ###############
 ##
-##  Image Name: denny/jenkins:1.0
-##  Git link: https://github.com/DennyZhang/devops_docker_image/blob/tag_v5/jenkins/Dockerfile_1_0
+##  Image Name: denny/jenkins_image:1.0
+##  Git link: https://github.com/DennyZhang/jenkins_image/blob/tag_v1/Dockerfile
 ##  Docker hub link:
-##  Build docker image: docker build --no-cache -f Dockerfile_1_0 -t denny/jenkins:1.0 --rm=true .
-##  Start jenkins: docker run -p 8080:8080 -p 50000:50000 denny/jenkins:1.0
+##  Build docker image: docker build --no-cache -f Dockerfile -t denny/jenkins_image:1.0 --rm=true .
+##  Start jenkins: docker run -p 8080:8080 -p 50000:50000 denny/jenkins_image:1.0
 ##  Description: Manage via Jenkins GUI
 ##################################################
 # Base Docker image: https://hub.docker.com/_/jenkins/
