@@ -5,6 +5,6 @@
 ##################################################
 # Base Docker image: https://hub.docker.com/r/denny/jenkins_image/
 
-FROM denny/jenkins_image:1.0
+FROM denny/jenkins_image:1.1
 
 LABEL maintainer "Denny<contact@dennyzhang.com>"

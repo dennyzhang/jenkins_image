@@ -1,0 +1,54 @@
+########## How To Use Docker Image ###############
+##
+##  Image Name: denny/jenkins_image:1.1
+##  Git link: https://github.com/DennyZhang/jenkins_image/blob/tag_v1/Dockerfile
+##  Docker hub link:
+##  Build docker image: time docker build --no-cache -f Dockerfile_v1_1 -t denny/jenkins_image:1.1 --rm=true .
+##  Start jenkins: docker run -p 18080:8080 denny/jenkins_image:1.1
+##  Description: Manage via Jenkins GUI
+##################################################
+# Base Docker image: https://hub.docker.com/r/jenkins/jenkins/
+
+FROM denny/jenkins_image:1.0
+
+LABEL maintainer "Denny<contact@dennyzhang.com>"
+
+user root
+
+# Disable ssh host key check
+ADD ssh_config /etc/ssh/ssh_config
+# Serverspec Check
+ADD run_serverspec.sh /usr/sbin/run_serverspec.sh
+ADD gitconfig /var/jenkins_home/.gitconfig
+
+# Install serverspec
+    apt-get -y update && apt-get install -y --no-install-recommends ruby rake && \
+    echo "gem: --no-rdoc --no-ri" >> /etc/gemrc && \
+    gem install serverspec -v 2.39.1 && chmod 755 /usr/sbin/run_serverspec.sh && \
+
+# Install basic packages
+    apt-get install -y netcat && \
+
+# Install python
+    apt-get install -y --no-install-recommends python-pip && \
+    pip install GitPython && \
+    chown jenkins:jenkins /var/jenkins_home/.gitconfig && \
+    # Install basic packages
+    apt-get install -y --no-install-recommends vim
+
+user jenkins
+
+# Verify docker image
+RUN ruby --version && rake --version && gem list server && gem --version && \
+    ruby --version | grep "2.1.5" && gem --version | grep "2.2.2" && \
+    rake --version | grep "10.3.2" && gem list serverspec | grep "2.39.1" && \
+    java -version && java -version 2>&1 | grep 1.8.0 && \
+    # verify plugin version
+    echo "Check workflow-multibranch" && cksum /usr/share/jenkins/ref/plugins/workflow-multibranch.jpi | grep 2966129578 && \
+    echo "Check docker-workflow" && cksum /usr/share/jenkins/ref/plugins/docker-workflow.jpi | grep 3372667563 && \
+    echo "Check workflow-job" && cksum /usr/share/jenkins/ref/plugins/workflow-job.jpi | grep 4045198933 && \
+    echo "Check workflow-scm-step" && cksum /usr/share/jenkins/ref/plugins/workflow-scm-step.jpi | grep 2369925214 && \
+    which vim
+
+HEALTHCHECK --interval=5m --timeout=3s \
+            CMD curl -I http://localhost:8080 | grep "HTTP/1.1 403 Forbidden" || exit 1
