@@ -22,7 +22,7 @@ ADD run_serverspec.sh /usr/sbin/run_serverspec.sh
 ADD gitconfig /var/jenkins_home/.gitconfig
 
 # Install serverspec
-    apt-get -y update && apt-get install -y --no-install-recommends ruby rake && \
+RUN apt-get -y update && apt-get install -y --no-install-recommends ruby rake && \
     echo "gem: --no-rdoc --no-ri" >> /etc/gemrc && \
     gem install serverspec -v 2.39.1 && chmod 755 /usr/sbin/run_serverspec.sh && \
 
