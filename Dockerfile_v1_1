@@ -41,7 +41,7 @@ user jenkins
 # Verify docker image
 RUN ruby --version && rake --version && gem list server && gem --version && \
     ruby --version | grep "2.1.5" && gem --version | grep "2.2.2" && \
-    rake --version | grep "10.3.2" && gem list serverspec | grep "2.39.1" && \
+    rake --version | grep "10.5.0" && gem list serverspec | grep "2.39.1" && \
     java -version && java -version 2>&1 | grep 1.8.0 && \
     # verify plugin version
     echo "Check workflow-multibranch" && cksum /usr/share/jenkins/ref/plugins/workflow-multibranch.jpi | grep 2966129578 && \
