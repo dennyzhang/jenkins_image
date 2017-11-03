@@ -1,0 +1,10 @@
+version: '2'
+services:
+  jenkins:
+    container_name: jenkins
+    hostname: jenkins
+    image: denny/jenkins_image:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    ports:
+      - "18000:8080"
+    restart: always
