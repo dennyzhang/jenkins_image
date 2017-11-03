@@ -70,7 +70,7 @@ RUN /usr/local/bin/install-plugins.sh structs:1.8 && \
     /usr/local/bin/install-plugins.sh workflow-multibranch:2.15 && \
     /usr/local/bin/install-plugins.sh docker-workflow:1.11 && \
     /usr/local/bin/install-plugins.sh workflow-job:2.11 && \
-    /usr/local/bin/install-plugins.sh workflow-scm-step:2.5 && \
+    /usr/local/bin/install-plugins.sh workflow-scm-step:2.5
 
 user jenkins
 
