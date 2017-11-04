@@ -39,8 +39,9 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends ruby rake &&
 user jenkins
 
 # Verify docker image
-RUN ruby --version && rake --version && gem list server && gem --version && \
-    ruby --version | grep "2.1.5" && gem --version | grep "2.2.2" && \
+RUN ruby --version && gem --version && \
+    ruby --version | grep "2.3.3" && gem --version | grep "2.2.2" && \
+    rake --version && gem list server && \
     rake --version | grep "10.5.0" && gem list serverspec | grep "2.39.1" && \
     java -version && java -version 2>&1 | grep 1.8.0 && \
     # verify plugin version
