@@ -40,7 +40,7 @@ user jenkins
 
 # Verify docker image
 RUN ruby --version && gem --version && \
-    ruby --version | grep "2.3.3" && gem --version | grep "2.2.2" && \
+    ruby --version | grep "2.3.3" && gem --version | grep "2.5.2" && \
     rake --version && gem list server && \
     rake --version | grep "10.5.0" && gem list serverspec | grep "2.39.1" && \
     java -version && java -version 2>&1 | grep 1.8.0 && \
