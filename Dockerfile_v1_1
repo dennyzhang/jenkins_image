@@ -52,4 +52,4 @@ RUN ruby --version && gem --version && \
     which vim
 
 HEALTHCHECK --interval=5m --timeout=3s \
-            CMD curl -I http://localhost:8080 | grep "HTTP/1.1 403 Forbidden" || exit 1
+            CMD curl -I http://localhost:8080 | grep "HTTP/1.1 200 OK" || exit 1
