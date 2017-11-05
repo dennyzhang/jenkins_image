@@ -16,5 +16,3 @@ docker exec -it jenkins bash
 /usr/local/bin/jenkins.sh
 # http://localhost:18080
 ```
-
-scp -r -i /Users/mac/Dropbox/private_data/emacs_stuff/backup_small/ssh_key/aws/denny-ssh-key1 ec2-user@jenkins.dennyzhang.com://home/ec2-user/jenkins_home/ ./sample_setting/
