@@ -8,3 +8,6 @@
 FROM denny/jenkins_image:1.1
 
 LABEL maintainer "Denny<contact@dennyzhang.com>"
+
+HEALTHCHECK --interval=5m --timeout=3s \
+            CMD curl -I http://localhost:8080 | grep "HTTP/1.1 200 OK" || exit 1
