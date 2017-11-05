@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>50</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>server_list</name>
+          <description></description>
+          <defaultValue>######## Column Explained:  ssh server ip, ssh port, ssh username
+172.17.0.3:22:root
+</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>file_list</name>
+          <description></description>
+          <defaultValue># Jenkins backup
+eval: find /var/lib/jenkins/jobs -name config.xml
+# Confluence backup
+eval: find /var/atlassian/application-data/confluence/backups/ -name *.zip  -printf &apos;%T@ %p\n&apos; | sort -n | tail -n 1 | awk -F&apos; &apos; &apos;{print $2}&apos;
+# JIRA backup
+eval: find /var/atlassian/application-data/jira/export/ -name *.zip  -printf &apos;%T@ %p\n&apos; | sort -n | tail -n 1 | awk -F&apos; &apos; &apos;{print $2}&apos;
+
+# apache
+/etc/apache2/sites-enabled
+/etc/httpd/conf.d
+
+# autostart and config files
+/etc/rc.local
+/var/lib/jenkins/.ssh/
+/root/.ssh/
+/etc/hosts
+
+# ssh
+/root/.ssh/authorized_keys
+/home/centos/authorized_keys
+/home/ubuntu/authorized_keys
+
+# general
+/opt/devops/
+</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>env_parameters</name>
+          <description></description>
+          <defaultValue># export SERVER_REMOTE_COPY=&quot;104.236.159.226:22:root:/data/backup/denny_demo&quot;</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash -e
+function download_script() {
+    local download_file=${1?}
+    . /etc/profile
+    [ -n &quot;$DOWNLOAD_TAG_NAME&quot; ] || export DOWNLOAD_TAG_NAME=&quot;tag_v2&quot;
+    working_dir=&quot;/var/lib/jenkins/code/devops_public&quot;
+    bash_script=&quot;${working_dir}/${download_file}&quot;
+    dir_name=$(dirname &quot;$bash_script&quot;)
+
+    export DOWNLOAD_PREFIX=&quot;https://raw.githubusercontent.com/DennyZhang/devops_public/${DOWNLOAD_TAG_NAME}&quot;
+    if [ ! -f &quot;$bash_script&quot; ]; then
+        mkdir -p &quot;$dir_name&quot;
+        wget -O &quot;$bash_script&quot; &quot;${DOWNLOAD_PREFIX}/jenkins_scripts/${download_file}&quot;
+        chmod 755 &quot;$bash_script&quot;
+    fi
+}
+################################################################################
+download_file=&quot;jenkins/collect_files.sh&quot;
+download_script &quot;$download_file&quot;
+bash -e &quot;/var/lib/jenkins/code/devops_public/$download_file&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.bearychat.BearychatNotifier plugin="bearychat@2.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://jenkinscn.dennyzhang.com:18088/</buildServerUrl>
+      <room></room>
+      <startNotification>false</startNotification>
+      <notifySuccess>false</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeBearychatCustomMessage>false</includeBearychatCustomMessage>
+      <bearychatCustomMessage></bearychatCustomMessage>
+    </jenkins.plugins.bearychat.BearychatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
+</project>
