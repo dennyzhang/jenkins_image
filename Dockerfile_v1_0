@@ -11,7 +11,7 @@
 
 FROM jenkins/jenkins:2.84
 
-LABEL maintainer "Denny<contact@dennyzhang.com>"
+LABEL maintainer "Denny<https://www.dennyzhang.com/contact>"
 
 # Install thinbackup plugin
 user root

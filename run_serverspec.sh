@@ -5,11 +5,11 @@
 ##   https://www.dennyzhang.com/wp-content/mit_license.txt
 ##
 ## File : run_serverspec.sh
-## Author : Denny <contact@dennyzhang.com>
+## Author : Denny <https://www.dennyzhang.com/contact>
 ## Description :
 ## --
 ## Created : <2017-05-14>
-## Updated: Time-stamp: <2017-09-07 21:35:14>
+## Updated: Time-stamp: <2017-11-13 11:01:17>
 ##-------------------------------------------------------------------
 function setup_serverspec() {
     working_dir=${1?}
