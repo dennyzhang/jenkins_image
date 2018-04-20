@@ -80,7 +80,8 @@ RUN \
      /usr/local/bin/install-plugins.sh docker-workflow:1.15.1 && \
 #     /usr/local/bin/install-plugins.sh workflow-job:2.11 && \
      /usr/local/bin/install-plugins.sh workflow-scm-step:2.6 && \
-     /usr/local/bin/install-plugins.sh github-pullrequest:0.1.0-rc29
+     /usr/local/bin/install-plugins.sh github-pullrequest:0.1.0-rc29 && \
+     /usr/local/bin/install-plugins.sh heavy-job:1.1
 
 user jenkins
 
@@ -94,7 +95,8 @@ RUN java -version && java -version 2>&1 | grep 1.8.0 && \
      echo "Check docker-workflow" && cksum /usr/share/jenkins/ref/plugins/docker-workflow.jpi | grep 104179366 && \
      echo "Check workflow-job" && cksum /usr/share/jenkins/ref/plugins/workflow-job.jpi | grep 1507002043 && \
      echo "Check workflow-scm-step" && cksum /usr/share/jenkins/ref/plugins/workflow-scm-step.jpi | grep 1598367120 && \
-     echo "Check github-pullrequest" && cksum /usr/share/jenkins/ref/plugins/github-pullrequest.jpi | grep 3458542936
+     echo "Check github-pullrequest" && cksum /usr/share/jenkins/ref/plugins/github-pullrequest.jpi | grep 3458542936 && \
+     echo "Heavy Job Plugin" && cksum /usr/share/jenkins/ref/plugins/heavy-job.jpi | grep 1267390496
 
 HEALTHCHECK --interval=5m --timeout=3s \
             CMD curl -I http://localhost:8080 | grep "HTTP/1.1 403 Forbidden" || exit 1
