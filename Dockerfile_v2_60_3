@@ -4,7 +4,7 @@
 ##  Git link: https://github.com/DennyZhang/jenkins_image/blob/master/Dockerfile_v2_60_3
 ##  Docker hub link:
 ##  Build docker image: docker build --no-cache -f Dockerfile_v2_60_3 -t denny/jenkins_image:2.60.3 --rm=true .
-##  Start jenkins: docker run -p 8080:8080 -p 50000:50000 denny/jenkins_image:2.60.3
+##  Start jenkins: docker run -p 8080:8080 denny/jenkins_image:2.60.3
 ##  Description: Manage via Jenkins GUI
 ##################################################
 # Base Docker image: https://hub.docker.com/_/jenkins/
